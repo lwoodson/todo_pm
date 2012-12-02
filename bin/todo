@@ -1,0 +1,24 @@
+#!/usr/bin/python
+import sys
+import os
+file_dir = os.path.dirname(os.path.realpath(__file__))
+lib_dir = os.path.join(file_dir, '..')
+sys.path.append(lib_dir)
+
+if not os.environ.has_key("TODO_TEMPLATE_DIR"):
+    os.environ["TODO_TEMPLATE_DIR"] = os.path.join(lib_dir, "tmpl")
+
+from optparse import OptionParser
+from todo import TodoException
+from todo import init
+
+parser = OptionParser()
+parser.add_option("-i", "--init", action="store_true", dest="init", help="Initialize a project with todo support")
+parser.add_option("-d", "--dir", dest="dir", default=".", help="Directory to place/find TODO file(s).")
+(options, args) = parser.parse_args()
+
+try:
+    if options.init:
+        init.initialize(options.dir)
+except TodoException as e:
+    sys.stderr.write("%s" % e.msg);
