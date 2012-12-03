@@ -10,7 +10,7 @@ if not os.environ.has_key("TODO_TEMPLATE_DIR"):
 
 from optparse import OptionParser
 from todo import TodoException
-from todo import init
+from todo import commands
 
 parser = OptionParser()
 parser.add_option("-i", "--init", action="store_true", dest="init", help="Initialize a project with todo support")
@@ -19,6 +19,6 @@ parser.add_option("-d", "--dir", dest="dir", default=".", help="Directory to pla
 
 try:
     if options.init:
-        init.initialize(options.dir)
+        commands.initialize(options.dir)
 except TodoException as e:
-    sys.stderr.write("%s" % e.msg);
+    sys.stderr.write("%s\n" % e.msg);

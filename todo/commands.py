@@ -9,10 +9,13 @@ def initialize(dir):
     if os.path.exists(file_path):
         raise TodoException("%s already exists!  Remove and try again\n" % file_path)
 
-    file = open(file_path, 'w')
     try:
-        file.write(templating.read('TODO.tmpl'))
-        sys.stdout.write("created %s\n" % file_path)
-    finally:
-        file.close()
-    
+        file = open(file_path, 'w')
+        try:
+            file.write(templating.read('TODO.tmpl'))
+            sys.stdout.write("created %s\n" % file_path)
+        finally:
+            file.close()
+    except IOError, e:
+        raise TodoException("Could not create %s: %s" % (file_path, e))
+
